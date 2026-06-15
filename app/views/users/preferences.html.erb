@@ -1,0 +1,26 @@
+<div class="flex flex-col md:flex-row md:justify-between w-full">
+
+    <div class="w-full md:w-1/5 md:sticky md:top-0 md:h-screen" data-notification-sidebar>
+      <%= render "users/sidebar/sidebar" %>
+    </div>
+
+    <div class="w-full flex flex-col">
+      <!-- Header -->
+      <%= render "users/shared/header", title: "Préférences" %>
+
+      <%# data-turbo="false" : force un full page reload après le PATCH pour
+          que <html data-theme="..."> soit régénéré côté serveur. Sans ça,
+          Turbo Drive remplace le body mais pas les attributs de <html>,
+          et le nouveau thème ne s'applique pas tant qu'on ne refresh pas. %>
+      <%= form_with url: "/preferences", method: :patch,
+            class: "flex flex-col flex-grow",
+            data: { turbo: false } do |f| %>
+        <!-- Body -->
+        <%= render "users/preferences/body", f: f %>
+
+        <!-- Footer -->
+        <%= render "users/preferences/footer" %>
+      <% end %>
+    </div>
+
+</div>

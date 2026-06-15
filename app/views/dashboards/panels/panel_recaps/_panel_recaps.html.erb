@@ -1,0 +1,19 @@
+<div class="" data-dashboard-target="panel" data-panel-id="recap" data-controller="recap">
+
+  <div class="flex flex-col md:flex-row md:justify-between gap-4 mb-6 md:mb-10">
+    <div class="md:w-2/3">
+      <p class="md:text-xl font-semibold text-gray-900">Recaps</p>
+    </div>
+  </div>
+
+  <div class="border-b border-gray-200 mb-8"></div>
+
+  <div data-controller="filter">
+    <%= render "dashboards/panels/panel_recaps/choose_interval" %>
+  </div>
+
+  <div class=" border-b border-gray-200 mt-8 mb-8"></div>
+
+  <%= render "dashboards/panels/panel_recaps/table_recap" %>
+
+</div>

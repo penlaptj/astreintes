@@ -1,0 +1,33 @@
+<div
+  class="hidden fixed inset-0 bg-black/30 flex items-center justify-center z-50"
+  data-<%= controller %>-target="assignModal"
+  data-action="click-><%= controller %>#closeAssign"
+>
+  <div class="bg-white rounded-2xl shadow-lg p-6 w-80" data-action="click-><%= controller %>#stopPropagation">
+    <h2 class="text-sm font-semibold text-gray-800 mb-4">Assigner l'astreinte</h2>
+
+    <select
+      data-<%= controller %>-target="assignSelect"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    >
+      <% @users.each do |user| %>
+        <option value="<%= user.id %>"><%= user.full_name %></option>
+      <% end %>
+    </select>
+
+    <div class="flex gap-3">
+      <button
+        data-action="click-><%= controller %>#closeAssign"
+        class="flex-1 border border-gray-200 text-gray-600 text-sm py-2 rounded-lg hover:bg-gray-50 cursor-pointer"
+      >
+        Annuler
+      </button>
+      <button
+        data-action="click-><%= controller %>#confirmAssign"
+        class="flex-1 bg-indigo-600 text-white text-sm py-2 rounded-lg hover:bg-indigo-700 cursor-pointer"
+      >
+        Valider
+      </button>
+    </div>
+  </div>
+</div>

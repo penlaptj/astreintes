@@ -1,0 +1,6 @@
+<% unread_count = @notifications.count(&:unread?) %>
+<% if unread_count > 0 %>
+  <p class="text-xs ml-5 text-gray-400">
+    <%= unread_count %> Notification(s) non lue(s)
+  </p>
+<% end %>

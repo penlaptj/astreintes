@@ -1,0 +1,24 @@
+<% slots = slots || @slots %>
+
+<div class="max-w-3xl mx-auto px-6 py-8">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-xl font-bold text-gray-800">Astreintes</h1>
+      <p class="text-sm text-gray-400 mt-1"><%= slots.count %> astreinte(s) au total</p>
+    </div>
+  </div>
+
+  <!-- Liste -->
+  <% if slots.empty? %>
+    <div class="text-center py-20 text-gray-300">
+      <p class="text-lg">Aucune astreinte pour le moment</p>
+    </div>
+  <% else %>
+    <div class="space-y-4">
+      <%= render "slot_detail"%>
+    </div>
+  <% end %>
+
+</div>

@@ -1,0 +1,58 @@
+{
+  "name": "Astreintes Events Webhook",
+  "apiVersion": "1.0.0",
+  "definitionVersion": "V4",
+  "type": "MESSAGE",
+  "description": "Diffusion d'evenements d'astreintes vers des consommateurs externes via webhook (Webhook Manager).",
+  "tags": ["astreintes", "events", "webhook"],
+  "listeners": [
+    {
+      "type": "SUBSCRIPTION",
+      "entrypoints": [
+        {
+          "type": "webhook",
+          "qos": "AT_LEAST_ONCE",
+          "configuration": {
+            "proxy": { "useSystemProxy": false }
+          }
+        }
+      ]
+    }
+  ],
+  "endpointGroups": [
+    {
+      "name": "events-source",
+      "type": "mock",
+      "endpoints": [
+        {
+          "name": "astreintes-events-mock",
+          "type": "mock",
+          "weight": 1,
+          "inheritConfiguration": false,
+          "configuration": {
+            "messageInterval": 5000,
+            "messageContent": "{\"event\":\"astreinte.scheduled\",\"at\":\"{#date}\"}"
+          }
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "name": "publish-events",
+      "enabled": true,
+      "publish": [
+        {
+          "name": "Add Event Metadata",
+          "enabled": true,
+          "policy": "message-transformation",
+          "configuration": {
+            "headers": [
+              { "name": "X-Event-Source", "value": "astreintes-platform" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

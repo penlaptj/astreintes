@@ -1,0 +1,88 @@
+<form action="<%= action %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="<%= method %>">
+
+  <div class="flex items-center gap-4">
+    <div class="mb-6 w-1/2">
+      <label class="block text-xs font-medium text-gray-700 mb-1">Début</label>
+      <input
+        type="datetime-local"
+        name="slot[starts_at]"
+        value="<%= slot.starts_at&.strftime('%Y-%m-%dT%H:%M') %>"
+        required
+        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+    </div>
+    <div class="mb-6 w-1/2">
+      <label class="block text-xs font-medium text-gray-700 mb-1">Fin</label>
+      <input
+        type="datetime-local"
+        name="slot[ends_at]"
+        value="<%= slot.ends_at&.strftime('%Y-%m-%dT%H:%M') %>"
+        required
+        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <label class="block text-xs font-medium text-gray-700 mb-1">Type</label>
+    <select name="slot[slot_type]" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <option value="jour" <%= 'selected' if slot.slot_type == 'jour' %>>Jour</option>
+      <option value="nuit" <%= 'selected' if slot.slot_type == 'nuit' %>>Nuit</option>
+      <option value="weekend" <%= 'selected' if slot.slot_type == 'weekend' %>>Weekend</option>
+    </select>
+  </div>
+
+  <% if @services&.any? %>
+    <div class="mb-5">
+      <label class="block text-xs font-medium text-gray-700 mb-1">Service</label>
+      <select name="slot[service_id]" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <option value="">— Aucun —</option>
+        <% @services.each do |service| %>
+          <option value="<%= service.id %>" <%= 'selected' if slot.service_id == service.id %>><%= service.name %></option>
+        <% end %>
+      </select>
+    </div>
+  <% end %>
+
+  <div class="mb-5">
+    <label class="block text-xs font-medium text-gray-700 mb-1">Description</label>
+    <textarea
+      name="slot[description]"
+      rows="3"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    ><%= slot.description %></textarea>
+  </div>
+
+  <p class="text-xs text-gray-500 mb-2">Compensation — financière, récupération, ou les deux.</p>
+  <div class="flex items-center gap-4 mb-6">
+    <div class="w-1/2">
+      <label class="block text-xs font-medium text-gray-700 mb-1">Compensation financière (€)</label>
+      <input
+        type="number"
+        name="slot[compensation_money]"
+        value="<%= slot.compensation_money %>"
+        min="0"
+        step="0.01"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+    </div>
+
+    <div class="w-1/2">
+      <label class="block text-xs font-medium text-gray-700 mb-1">Récupération (jours)</label>
+      <input
+        type="number"
+        name="slot[compensation_days]"
+        value="<%= slot.compensation_days %>"
+        min="0"
+        step="0.5"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+    </div>
+  </div>
+
+  <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg transition-colors duration-200">
+    <%= submit_label %>
+  </button>
+</form>

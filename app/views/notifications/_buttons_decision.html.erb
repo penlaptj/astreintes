@@ -1,0 +1,22 @@
+<div>
+  <div class="flex justify-between">
+    <button class="text-xs bg-green-600 text-white px-3 py-1.5 rounded-lg cursor-pointer" 
+      data-action="click->notification#accept_swap"
+      data-receiver-id="<%= notification.event.params[:sender_id] %>"
+      data-sender-id="<%= current_user.id %>"
+      data-slot-id="<%= notification.event.params[:slot_id] %>"
+      data-notification-id="<%= notification.id %>"
+    >
+      Accepter
+    </button>
+    <button class="text-xs bg-red-100 text-red-600 px-3 py-1.5 rounded-lg cursor-pointer" 
+      data-action="click->notification#decline_swap"
+      data-receiver-id="<%= notification.event.params[:sender_id] %>"
+      data-sender-id="<%= current_user.id %>"
+      data-slot-id="<%= notification.event.params[:slot_id] %>"
+      data-notification-id="<%= notification.id %>"
+    >
+      Refuser
+    </button>
+  </div>
+</div>

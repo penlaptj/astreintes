@@ -1,0 +1,36 @@
+<% current_theme   = current_user.theme.presence || "default" %>
+<% themes = [
+  { id: "default", label: "Classique",  desc: "Look actuel, clair et sobre.",   swatch: "bg-gradient-to-br from-gray-100 to-white border-gray-300" },
+  { id: "dark",    label: "Sombre",     desc: "Pour les yeux sensibles le soir.", swatch: "bg-gradient-to-br from-slate-900 to-slate-700 border-slate-600" },
+  { id: "sunset",  label: "Coucher de soleil", desc: "Tons pêche et orangés.",  swatch: "bg-gradient-to-br from-orange-100 to-amber-200 border-orange-300" },
+  { id: "forest",  label: "Forêt",      desc: "Verts naturels et apaisants.",   swatch: "bg-gradient-to-br from-green-100 to-emerald-200 border-green-300" },
+  { id: "unova",   label: "Unova",      desc: "Hommage à Pokémon Noir/Blanc — noir profond, lueurs néon rouge et bleu.", swatch: "swatch-unova border-red-500" }
+] %>
+
+
+<!-- Thème visuel -->
+<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+  <h3 class="text-lg font-medium text-gray-900">Thème</h3>
+  <p class="text-sm text-gray-500 mt-1 mb-4">
+    Personnalise l'apparence de l'application.
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <% themes.each do |t| %>
+      <label class="cursor-pointer rounded-xl border border-gray-200 p-3 hover:bg-gray-50 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 transition">
+        <div class="flex items-center gap-3">
+          <span class="block w-12 h-12 rounded-lg border <%= t[:swatch] %>"></span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <p class="text-sm font-medium text-gray-800"><%= t[:label] %></p>
+              <input type="radio" name="theme" value="<%= t[:id] %>"
+                     class="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                     <%= 'checked' if current_theme == t[:id] %>>
+            </div>
+            <p class="text-xs text-gray-500 mt-0.5 truncate"><%= t[:desc] %></p>
+          </div>
+        </div>
+      </label>
+    <% end %>
+  </div>
+</div>

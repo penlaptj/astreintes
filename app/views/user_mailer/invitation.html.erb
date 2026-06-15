@@ -1,0 +1,17 @@
+<p>Bonjour <%= @user.first_name %>,</p>
+
+<p>
+  Un compte vient d'être créé pour vous sur l'application de gestion des astreintes.
+  Cliquez sur le lien ci-dessous pour définir votre mot de passe et activer votre compte :
+</p>
+
+<p>
+  <a href="<%= @url %>"
+     style="display:inline-block;background:#4f46e5;color:#ffffff;padding:10px 20px;border-radius:8px;text-decoration:none;">
+    Définir mon mot de passe
+  </a>
+</p>
+
+<p>Ce lien est valable pendant 7 jours.</p>
+
+<p>Si vous n'êtes pas concerné par cette invitation, ignorez simplement cet e-mail.</p>

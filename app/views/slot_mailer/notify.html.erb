@@ -1,0 +1,18 @@
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+  <h2 style="color: #4F46E5;">Vous êtes requis en astreinte</h2>
+  
+  <p>Bonjour <%= @user.first_name %>,</p>
+  
+  <p>Vous êtes requis immédiatement pour votre astreinte :</p>
+
+  <div style="background: #F3F4F6; padding: 16px; border-radius: 8px; margin: 16px 0;">
+    <p><strong>Début :</strong> <%= @slot.starts_at.strftime("%d/%m/%Y %H:%M") %></p>
+    <p><strong>Fin :</strong> <%= @slot.ends_at.strftime("%d/%m/%Y %H:%M") %></p>
+    <p><strong>Type :</strong> <%= @slot.slot_type %></p>
+    <% if @slot.description.present? %>
+      <p><strong>Description :</strong> <%= @slot.description %></p>
+    <% end %>
+  </div>
+
+  <p>Merci de vous rendre disponible dès que possible.</p>
+</div>

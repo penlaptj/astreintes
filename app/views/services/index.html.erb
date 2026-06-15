@@ -1,0 +1,45 @@
+<div class="max-w-4xl mx-auto px-6 py-8">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-xl font-bold text-gray-800">Services</h1>
+      <p class="text-sm text-gray-400 mt-1"><%= @services.size %> service(s)</p>
+    </div>
+    <%= link_to "Nouveau service", new_service_path,
+        class: "bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg" %>
+  </div>
+
+  <div class="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-50 text-gray-500">
+        <tr>
+          <th class="text-left px-5 py-3 font-medium">Nom</th>
+          <th class="text-left px-5 py-3 font-medium">Description</th>
+          <th class="text-center px-5 py-3 font-medium">Membres</th>
+          <th class="text-right px-5 py-3 font-medium">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @services.empty? %>
+          <tr><td colspan="4" class="px-5 py-8 text-center text-gray-300">Aucun service pour le moment</td></tr>
+        <% end %>
+        <% @services.each do |service| %>
+          <tr class="border-t border-gray-100">
+            <td class="px-5 py-3 font-semibold text-gray-800"><%= service.name %></td>
+            <td class="px-5 py-3 text-gray-500"><%= service.description %></td>
+            <td class="px-5 py-3 text-center text-gray-500"><%= service.users.size %></td>
+            <td class="px-5 py-3 text-right whitespace-nowrap">
+              <%= link_to "Modifier", edit_service_path(service), class: "text-indigo-600 hover:underline mr-3" %>
+              <%= button_to "Supprimer", service_path(service), method: :delete,
+                  form: { data: { turbo_confirm: "Supprimer ce service ?" }, class: "inline" },
+                  class: "text-red-600 hover:underline cursor-pointer" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-6">
+    <%= link_to "← Retour au tableau de bord", "/dashboard/users", class: "text-sm text-gray-400 hover:text-gray-600" %>
+  </div>
+</div>

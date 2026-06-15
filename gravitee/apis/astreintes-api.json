@@ -1,0 +1,122 @@
+{
+  "name": "Astreintes API",
+  "apiVersion": "1.0.0",
+  "definitionVersion": "V4",
+  "type": "PROXY",
+  "description": "API de gestion des astreintes exposee via Gravitee Gateway. Rate limiting, JWT, et observabilite Prometheus.",
+  "tags": ["astreintes", "internal"],
+  "listeners": [
+    {
+      "type": "HTTP",
+      "paths": [
+        { "path": "/astreintes" }
+      ],
+      "entrypoints": [
+        {
+          "type": "http-proxy",
+          "qos": "AUTO"
+        }
+      ]
+    }
+  ],
+  "endpointGroups": [
+    {
+      "name": "default-group",
+      "type": "http-proxy",
+      "endpoints": [
+        {
+          "name": "astreintes-backend",
+          "type": "http-proxy",
+          "weight": 1,
+          "inheritConfiguration": false,
+          "configuration": {
+            "target": "http://host.docker.internal:3000"
+          },
+          "sharedConfigurationOverride": {
+            "http": {
+              "connectTimeout": 3000,
+              "readTimeout": 10000,
+              "keepAliveTimeout": 30000,
+              "keepAlive": true
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "flowExecution": {
+    "mode": "DEFAULT",
+    "matchRequired": false
+  },
+  "flows": [
+    {
+      "name": "default-flow",
+      "enabled": true,
+      "selectors": [
+        {
+          "type": "HTTP",
+          "path": "/",
+          "pathOperator": "STARTS_WITH",
+          "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+        }
+      ],
+      "request": [
+        {
+          "name": "Rate Limiting",
+          "description": "100 req/min par consommateur",
+          "enabled": true,
+          "policy": "rate-limit",
+          "configuration": {
+            "async": false,
+            "addHeaders": true,
+            "rate": {
+              "limit": 100,
+              "periodTime": 1,
+              "periodTimeUnit": "MINUTES"
+            }
+          }
+        },
+        {
+          "name": "Transform Headers",
+          "enabled": true,
+          "policy": "transform-headers",
+          "configuration": {
+            "addHeaders": [
+              { "name": "X-Forwarded-Through", "value": "gravitee-gateway" },
+              { "name": "X-Request-Id", "value": "{#request.id}" }
+            ]
+          }
+        }
+      ],
+      "response": [
+        {
+          "name": "Strip Server Header",
+          "enabled": true,
+          "policy": "transform-headers",
+          "configuration": {
+            "removeHeaders": ["Server", "X-Powered-By"]
+          }
+        }
+      ]
+    }
+  ],
+  "analytics": {
+    "enabled": true,
+    "logging": {
+      "content": {
+        "headers": true,
+        "messageHeaders": false,
+        "payload": false,
+        "messagePayload": false
+      },
+      "phase": {
+        "request": true,
+        "response": true
+      },
+      "mode": {
+        "entrypoint": true,
+        "endpoint": true
+      }
+    }
+  }
+}

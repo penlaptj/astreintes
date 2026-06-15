@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Pastille de prévisualisation du thème Unova dans les préférences */
+.swatch-unova {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 38, 76, 0.6), transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(0, 212, 255, 0.6), transparent 50%),
+    #07070d;
+}
+
+/* ============================================================
+   Thèmes — pilotés par <html data-theme="...">
+   default = look actuel (rien à override).
+   ============================================================ */
+
+/* ---------- Dark : sombre classique ---------- */
+html[data-theme="dark"] body {
+  background-color: #0f172a !important;
+  color: #e2e8f0;
+}
+html[data-theme="dark"] nav {
+  background-color: rgba(15, 23, 42, 0.85) !important;
+  border-color: #1e293b !important;
+}
+
+/* Textes : par défaut clairs en thème sombre… */
+html[data-theme="dark"] .text-gray-900,
+html[data-theme="dark"] .text-gray-800,
+html[data-theme="dark"] .text-gray-700 { color: #e2e8f0 !important; }
+html[data-theme="dark"] .text-gray-600,
+html[data-theme="dark"] .text-gray-500,
+html[data-theme="dark"] .text-gray-400 { color: #94a3b8 !important; }
+
+/* …mais ils redeviennent sombres dans les cartes bg-white (lisibilité). */
+html[data-theme="dark"] .bg-white .text-gray-900,
+html[data-theme="dark"] .bg-white .text-gray-800,
+html[data-theme="dark"] .bg-white .text-gray-700 { color: #111827 !important; }
+html[data-theme="dark"] .bg-white .text-gray-600 { color: #4b5563 !important; }
+html[data-theme="dark"] .bg-white .text-gray-500,
+html[data-theme="dark"] .bg-white .text-gray-400 { color: #6b7280 !important; }
+
+/* ---------- Sunset : pêche / orange chaleureux ---------- */
+html[data-theme="sunset"] body {
+  background-color: #fff7ed !important;
+}
+html[data-theme="sunset"] nav {
+  background-color: rgba(255, 247, 237, 0.85) !important;
+  border-color: #fed7aa !important;
+}
+
+/* ---------- Forest : verts naturels ---------- */
+html[data-theme="forest"] body {
+  background-color: #f0fdf4 !important;
+}
+html[data-theme="forest"] nav {
+  background-color: rgba(240, 253, 244, 0.85) !important;
+  border-color: #bbf7d0 !important;
+}
+
+/* ============================================================
+   UNOVA — clin d'œil Pokémon Noir/Blanc (gen 5).
+   Fond noir, lueurs Reshiram (rouge) + Zekrom (bleu), pokéballs
+   en décor et liserés néon sur les cartes.
+   ============================================================ */
+html[data-theme="unova"] body {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 38, 76, 0.18), transparent 55%),
+    radial-gradient(circle at 82% 78%, rgba(0, 212, 255, 0.18), transparent 55%),
+    #07070d !important;
+  color: #f5f5fa;
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* Pokéballs décoratives fixées dans le viewport (purement visuelles) */
+html[data-theme="unova"] body::before,
+html[data-theme="unova"] body::after {
+  content: "";
+  position: fixed;
+  width: 320px;
+  height: 320px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.10;
+}
+/* Pokéball classique en haut à droite */
+html[data-theme="unova"] body::before {
+  top: 60px;
+  right: -80px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='white' stroke='black' stroke-width='3'/%3E%3Cpath d='M3 32a29 29 0 0 1 58 0z' fill='%23ee1515'/%3E%3Cline x1='3' y1='32' x2='61' y2='32' stroke='black' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='8' fill='white' stroke='black' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23222'/%3E%3C/svg%3E");
+  transform: rotate(18deg);
+  filter: drop-shadow(0 0 24px rgba(255, 38, 76, 0.5));
+}
+/* Great Ball (bleu/rouge) en bas à gauche */
+html[data-theme="unova"] body::after {
+  bottom: -80px;
+  left: -80px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='white' stroke='black' stroke-width='3'/%3E%3Cpath d='M3 32a29 29 0 0 1 58 0z' fill='%23005bbb'/%3E%3Cpath d='M14 14 L24 14 L18 24 Z M50 14 L40 14 L46 24 Z' fill='%23ee1515'/%3E%3Cline x1='3' y1='32' x2='61' y2='32' stroke='black' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='8' fill='white' stroke='black' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23222'/%3E%3C/svg%3E");
+  transform: rotate(-22deg);
+  filter: drop-shadow(0 0 24px rgba(0, 212, 255, 0.5));
+}
+
+/* Master Ball très discrète au centre (décor "boss" Pokémon) */
+html[data-theme="unova"] main::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 480px;
+  height: 480px;
+  margin: -240px 0 0 -240px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='white' stroke='black' stroke-width='3'/%3E%3Cpath d='M3 32a29 29 0 0 1 58 0z' fill='%237a3cbe'/%3E%3Ccircle cx='22' cy='18' r='3' fill='%23ff7eb6'/%3E%3Ccircle cx='42' cy='18' r='3' fill='%23ff7eb6'/%3E%3Cpath d='M22 24 Q32 30 42 24' fill='none' stroke='%23ff7eb6' stroke-width='2'/%3E%3Cline x1='3' y1='32' x2='61' y2='32' stroke='black' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='8' fill='white' stroke='black' stroke-width='3'/%3E%3C/svg%3E");
+}
+
+/* Pikachu d'astreinte en bas à droite (fichier dans public/themes/) */
+html[data-theme="unova"] main::after {
+  content: "";
+  position: fixed;
+  bottom: 12px;
+  right: 20px;
+  width: 320px;
+  height: 360px;
+  background-image: url("/themes/pikachu_astreinte.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom right;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.30;
+  filter: drop-shadow(0 0 22px rgba(255, 203, 5, 0.5));
+}
+
+/* Contenu au-dessus du décor — on laisse le nav tranquille (sticky z-50 natif),
+   sinon son dropdown se fait écraser par le main qui vient après dans le DOM. */
+html[data-theme="unova"] main { position: relative; z-index: 1; }
+
+/* Navbar : noire avec liseré rouge + logo en dégradé Reshiram→Zekrom */
+html[data-theme="unova"] nav {
+  background-color: rgba(7, 7, 13, 0.85) !important;
+  border-bottom: 1px solid #ff264c !important;
+  backdrop-filter: blur(12px);
+}
+html[data-theme="unova"] nav h1 {
+  background: linear-gradient(90deg, #ff264c, #00d4ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+/* Cartes : fond sombre, liseré néon rouge, halo */
+html[data-theme="unova"] .rounded-2xl,
+html[data-theme="unova"] .rounded-3xl {
+  background-color: rgba(20, 20, 35, 0.92) !important;
+  border: 1px solid #ff264c !important;
+  box-shadow: 0 0 18px rgba(255, 38, 76, 0.15), 0 0 32px rgba(0, 212, 255, 0.08);
+  color: #f5f5fa;
+}
+/* Alternance rouge/bleu sur les cartes pour le contraste Reshiram/Zekrom */
+html[data-theme="unova"] .rounded-2xl:nth-of-type(even) {
+  border-color: #00d4ff !important;
+  box-shadow: 0 0 18px rgba(0, 212, 255, 0.18), 0 0 32px rgba(255, 38, 76, 0.06);
+}
+
+/* TEXTES : tout passe en clair en Unova (pas de cartes blanches ici). */
+html[data-theme="unova"] .text-gray-900,
+html[data-theme="unova"] .text-gray-800,
+html[data-theme="unova"] .text-gray-700 { color: #f5f5fa !important; }
+html[data-theme="unova"] .text-gray-600,
+html[data-theme="unova"] .text-gray-500,
+html[data-theme="unova"] .text-gray-400 { color: #9aa0c4 !important; }
+html[data-theme="unova"] h1,
+html[data-theme="unova"] h2,
+html[data-theme="unova"] h3,
+html[data-theme="unova"] p,
+html[data-theme="unova"] label,
+html[data-theme="unova"] span { color: inherit; }
+
+/* Backgrounds gris -> sombres en Unova */
+html[data-theme="unova"] .bg-gray-50  { background-color: rgba(20, 20, 35, 0.6) !important; }
+html[data-theme="unova"] .bg-gray-100 { background-color: rgba(20, 20, 35, 0.8) !important; }
+html[data-theme="unova"] .bg-white    { background-color: rgba(20, 20, 35, 0.92) !important; }
+
+/* Inputs et selects lisibles en Unova */
+html[data-theme="unova"] input[type="text"],
+html[data-theme="unova"] input[type="email"],
+html[data-theme="unova"] input[type="password"],
+html[data-theme="unova"] input[type="datetime-local"],
+html[data-theme="unova"] input[type="search"],
+html[data-theme="unova"] select,
+html[data-theme="unova"] textarea {
+  background-color: rgba(7, 7, 13, 0.8) !important;
+  color: #f5f5fa !important;
+  border-color: #ff264c !important;
+}

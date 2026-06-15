@@ -1,0 +1,30 @@
+<div class="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 mb-6">
+    <h2 class="text-sm font-semibold text-gray-400 uppercase mb-4">Informations</h2>
+
+    <div class="space-y-4">
+      <div class="flex items-center justify-between py-3 border-b border-gray-50">
+        <span class="text-sm text-gray-500">Id</span>
+        <span class="text-sm font-medium text-gray-800"><%= current_user.slack_uid %></span>
+      </div>
+      <div class="flex items-center justify-between py-3 border-b border-gray-50">
+        <span class="text-sm text-gray-500">Nom</span>
+        <span class="text-sm font-medium text-gray-800"><%= current_user.last_name %></span>
+      </div>
+      <div class="flex items-center justify-between py-3 border-b border-gray-50">
+        <span class="text-sm text-gray-500">Prénom</span>
+        <span class="text-sm font-medium text-gray-800"><%= current_user.first_name %></span>
+      </div>
+      <div class="flex items-center justify-between py-3 border-b border-gray-50">
+        <span class="text-sm text-gray-500">Email</span>
+        <span class="text-sm font-medium text-gray-800"><%= current_user.email %></span>
+      </div>
+      <div class="flex items-center justify-between py-3">
+        <span class="text-sm text-gray-500">Statut</span>
+        <% if current_user.active? %>
+          <span class="text-xs bg-green-100 text-green-700 px-2.5 py-0.5 rounded-full">Actif</span>
+        <% else %>
+          <span class="text-xs bg-red-100 text-red-500 px-2.5 py-0.5 rounded-full">Inactif</span>
+        <% end %>
+      </div>
+    </div>
+  </div>

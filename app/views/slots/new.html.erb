@@ -1,0 +1,19 @@
+<div class="min-h-screen flex items-center justify-center -mt-6">
+  <div class="bg-white rounded-2xl shadow-lg p-10 w-full max-w-md">
+
+    <!-- Logo / Titre -->
+    <div class="text-center mb-8">
+      <span class="text-5xl">🗓️</span>
+      <h1 class="text-2xl font-bold text-gray-800 mt-3">Nouvelle Astreinte</h1>
+      <p class="text-gray-400 text-sm mt-1">Créer une nouvelle astreinte</p>
+    </div>
+
+    <!-- Formulaire -->
+    
+    <%= render "slots/form",
+      slot: Slot.new,
+      action: "/slots/create",
+      method: "post",
+      submit_label: "Créer l'astreinte" %>
+  </div>
+</div>

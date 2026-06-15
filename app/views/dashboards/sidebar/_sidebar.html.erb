@@ -1,0 +1,61 @@
+<div class="bg-gray-900 text-white text-xs w-full md:w-1/5 py-4 md:py-10 md:min-h-screen overflow-x-auto md:overflow-visible">
+  <p class="hidden md:block text-sm mb-8 ml-5 font-semibold tracking-wide uppercase text-gray-400">
+    Administration
+  </p>
+
+  <div class="flex md:flex-col gap-1 md:gap-0 px-2 md:px-0 whitespace-nowrap md:whitespace-normal">
+    <!-- Utilisateurs -->
+    <a href="/dashboard/users"
+      class="shrink-0 flex items-center cursor-pointer mb-0 md:mb-3 py-2 md:py-3 px-3 md:px-5 md:w-full text-left
+        <%= menu == "users" ? "bg-gray-800" : "" %> hover:bg-gray-700 transition-colors font-medium rounded"
+    >
+      <span>Utilisateurs</span>
+    </a>
+
+    <!-- Astreintes -->
+    <a href="/dashboard/astreintes"
+      class="shrink-0 flex items-center cursor-pointer mb-0 md:mb-3 py-2 md:py-3 px-3 md:px-5 md:w-full text-left
+        <%= menu == "slots" ? "bg-gray-800" : "" %> hover:bg-gray-700 transition-colors font-medium rounded"
+    >
+      <span>Astreintes</span>
+    </a>
+
+    <!-- Recaps -->
+    <a href="/dashboard/recaps"
+      class="shrink-0 flex items-center cursor-pointer mb-0 md:mb-3 py-2 md:py-3 px-3 md:px-5 md:w-full text-left
+        <%= menu == "recaps" ? "bg-gray-800" : "" %> hover:bg-gray-700 transition-colors font-medium rounded"
+    >
+      <span>Recaps</span>
+    </a>
+
+    <!-- Demandes à valider -->
+    <a href="/slots/validation"
+      class="shrink-0 flex items-center cursor-pointer mb-0 md:mb-3 py-2 md:py-3 px-3 md:px-5 text-left hover:bg-gray-700 transition-colors font-medium rounded">
+      <span>Demandes à valider</span>
+    </a>
+
+    <!-- Inviter un utilisateur -->
+    <a href="/users/new"
+      class="shrink-0 flex items-center cursor-pointer mb-0 md:mb-3 py-2 md:py-3 px-3 md:px-5 text-left hover:bg-gray-700 transition-colors font-medium rounded">
+      <span>Inviter un utilisateur</span>
+    </a>
+
+    <% if current_user.global_manager? %>
+      <!-- Services -->
+      <a href="/services"
+        class="shrink-0 flex items-center cursor-pointer mb-0 md:mb-3 py-2 md:py-3 px-3 md:px-5 text-left hover:bg-gray-700 transition-colors font-medium rounded">
+        <span>Services</span>
+      </a>
+    <% end %>
+
+    <% if current_user.manager? %>
+      <!-- History -->
+      <a href="/dashboard/history"
+        class="shrink-0 flex items-center cursor-pointer mb-0 md:mb-3 py-2 md:py-3 px-3 md:px-5 text-left hover:bg-gray-700 transition-colors font-medium rounded
+          <%= menu == "history" ? "bg-gray-800" : "" %> hover:bg-gray-700 transition-colors font-medium rounded"
+        >
+        <span>Historique</span>
+      </a>
+    <% end %>
+  </div>
+</div>

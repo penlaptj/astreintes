@@ -1,0 +1,157 @@
+wb = xlsx_package.workbook
+
+# Configuration de base pour l'ensemble des styles
+font_options = { font_name: "Segoe UI", sz: 10 }
+
+# --- STYLES DES EN-TÊTES DE MÉTA-DONNÉES (Employé, Période) ---
+meta_label_style = wb.styles.add_style(font_options.merge(b: true, fg_color: "FF475569", alignment: { horizontal: :right }))
+meta_value_style = wb.styles.add_style(font_options.merge(fg_color: "FF1E293B"))
+
+# --- STYLE DE L'EN-TÊTE DU TABLEAU ---
+header_style = wb.styles.add_style(
+  font_name: "Segoe UI",
+  sz:        10,
+  b:         true,
+  bg_color:  "FF1E293B", # Slate-800 très professionnel
+  fg_color:  "FFFFFFFF", # Texte blanc
+  alignment: { horizontal: :center, vertical: :center },
+  border:    { style: :thin, color: "FF1E293B" }
+)
+
+# Configuration de bordure fine et douce pour les cellules de données
+thin_border = { style: :thin, color: "FFE2E8F0", edges: [:top, :bottom, :left, :right] }
+
+# --- STYLES POUR LES LIGNES IMPAIRES (Fond blanc) ---
+cell_left      = wb.styles.add_style(font_options.merge(alignment: { horizontal: :left, vertical: :center }, border: thin_border))
+cell_center    = wb.styles.add_style(font_options.merge(alignment: { horizontal: :center, vertical: :center }, border: thin_border))
+cell_right     = wb.styles.add_style(font_options.merge(alignment: { horizontal: :right, vertical: :center }, border: thin_border))
+date_style     = wb.styles.add_style(font_options.merge(format_code: "dd/mm/yyyy hh:mm", alignment: { horizontal: :center, vertical: :center }, border: thin_border))
+duration_style = wb.styles.add_style(font_options.merge(format_code: '#,##0.0', alignment: { horizontal: :right, vertical: :center }, border: thin_border))
+euro_style     = wb.styles.add_style(font_options.merge(format_code: '#,##0&quot; €&quot;', alignment: { horizontal: :right, vertical: :center }, border: thin_border))
+day_style      = wb.styles.add_style(font_options.merge(format_code: '#,##0&quot; j&quot;', alignment: { horizontal: :right, vertical: :center }, border: thin_border))
+
+# --- STYLES POUR LES LIGNES PAIRES (Zebra Striping #F8FAFC) ---
+stripe_bg = "FFF8FAFC"
+cell_left_stripe      = wb.styles.add_style(font_options.merge(bg_color: stripe_bg, alignment: { horizontal: :left, vertical: :center }, border: thin_border))
+cell_center_stripe    = wb.styles.add_style(font_options.merge(bg_color: stripe_bg, alignment: { horizontal: :center, vertical: :center }, border: thin_border))
+cell_right_stripe     = wb.styles.add_style(font_options.merge(bg_color: stripe_bg, alignment: { horizontal: :right, vertical: :center }, border: thin_border))
+date_style_stripe     = wb.styles.add_style(font_options.merge(bg_color: stripe_bg, format_code: "dd/mm/yyyy hh:mm", alignment: { horizontal: :center, vertical: :center }, border: thin_border))
+duration_style_stripe = wb.styles.add_style(font_options.merge(bg_color: stripe_bg, format_code: '#,##0.0', alignment: { horizontal: :right, vertical: :center }, border: thin_border))
+euro_style_stripe     = wb.styles.add_style(font_options.merge(bg_color: stripe_bg, format_code: '#,##0&quot; €&quot;', alignment: { horizontal: :right, vertical: :center }, border: thin_border))
+day_style_stripe      = wb.styles.add_style(font_options.merge(bg_color: stripe_bg, format_code: '#,##0&quot; j&quot;', alignment: { horizontal: :right, vertical: :center }, border: thin_border))
+
+# --- STYLES DES TOTAUX EN BAS DE TABLEAU (Bordures doubles de comptabilité) ---
+total_border = { style: :thin, color: "FF94A3B8", edges: [:top, :bottom] }
+
+total_label_style = wb.styles.add_style(
+  font_name: "Segoe UI",
+  sz:        10,
+  b:         true,
+  fg_color:  "FF334155",
+  alignment: { horizontal: :right, vertical: :center },
+  border:    total_border
+)
+
+total_val_style = wb.styles.add_style(
+  font_name: "Segoe UI",
+  sz:        10,
+  b:         true,
+  alignment: { horizontal: :right, vertical: :center },
+  border:    total_border
+)
+
+total_euro_style = wb.styles.add_style(
+  font_name: "Segoe UI",
+  sz:        10,
+  b:         true,
+  format_code: '#,##0&quot; €&quot;',
+  alignment: { horizontal: :right, vertical: :center },
+  border:    total_border
+)
+
+total_day_style = wb.styles.add_style(
+  font_name: "Segoe UI",
+  sz:        10,
+  b:         true,
+  format_code: '#,##0&quot; j&quot;',
+  alignment: { horizontal: :right, vertical: :center },
+  border:    total_border
+)
+
+
+wb.add_worksheet(name: "Astreintes") do |sheet|
+  # Bloc des méta-données
+  sheet.add_row ["Employé :", @user.full_name], style: [meta_label_style, meta_value_style], height: 18
+  sheet.add_row ["Rôle :",    @user.role],      style: [meta_label_style, meta_value_style], height: 18
+  sheet.add_row ["Période :", "#{@starts_at.strftime('%d/%m/%Y %H:%M')} → #{@ends_at.strftime('%d/%m/%Y %H:%M')}"], style: [meta_label_style, meta_value_style], height: 18
+  sheet.add_row [], height: 15
+
+  # En-tête du tableau
+  sheet.add_row(
+    ["Début", "Fin", "Durée (h)", "Type", "Description", "Compensation (€)", "Récupération (j)"],
+    style: header_style,
+    height: 26
+  )
+
+  total_euros = 0
+  total_jours = 0
+  total_hours = 0
+
+  @slots.each_with_index do |slot, index|
+    total_hours += slot.duration_hours
+    is_even = index.even?
+
+    money = slot.compensation_money.to_f
+    days  = slot.compensation_days.to_f
+    total_euros += money
+    total_jours += days
+
+    # Formats monétaires/jours avec zebra striping
+    euro_cell = is_even ? euro_style_stripe : euro_style
+    day_cell  = is_even ? day_style_stripe  : day_style
+
+    # Définition des styles de ligne selon la parité
+    row_styles = if is_even
+      [date_style_stripe, date_style_stripe, duration_style_stripe, cell_center_stripe, cell_left_stripe, euro_cell, day_cell]
+    else
+      [date_style, date_style, duration_style, cell_center, cell_left, euro_cell, day_cell]
+    end
+
+    sheet.add_row(
+      [
+        slot.starts_at,
+        slot.ends_at,
+        slot.duration_hours,
+        slot.slot_type,
+        slot.description,
+        money,
+        days
+      ],
+      style: row_styles,
+      height: 20
+    )
+  end
+
+  # Ligne d'espacement avant les totaux
+  sheet.add_row [], height: 15
+
+  # Totaux alignés horizontalement sous les colonnes respectives
+  # Colonne 2/3 : Somme des heures. Colonne 5/6 : Somme des compensations.
+  sheet.add_row(
+    ["", "Total heures :", total_hours, "", "Total compensation (€) :", total_euros, ""],
+    style: [nil, total_label_style, total_val_style, nil, total_label_style, total_euro_style, nil],
+    height: 22
+  )
+
+  sheet.add_row(
+    ["", "Nb astreintes :", @slots.size, "", "Total compensation (jours) :", total_jours, ""],
+    style: [nil, total_label_style, total_val_style, nil, total_label_style, total_day_style, nil],
+    height: 22
+  )
+
+  # Afficher les lignes de grille par défaut
+  sheet.sheet_view.show_grid_lines = true
+
+  # Ajustement des largeurs de colonne
+  sheet.column_widths 18, 18, 14, 14, 32, 18, 16
+end

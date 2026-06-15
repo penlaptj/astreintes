@@ -1,0 +1,11 @@
+/*
+ * Manifest CSS — la vraie source du style est app/assets/tailwind/application.css
+ * (compilée par bin/rails tailwindcss:watch vers app/assets/builds/tailwind.css).
+ * Les overrides de thème (data-theme="...") sont donc dans le fichier Tailwind.
+ */
+
+@import "tailwindcss";
+
+body {
+  font-family: 'Inter', sans-serif;
+}

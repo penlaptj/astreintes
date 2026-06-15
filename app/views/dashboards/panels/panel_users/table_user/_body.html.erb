@@ -1,0 +1,105 @@
+<tbody>
+      <% @users.each do |user| %>
+        <tr
+          data-filter-target="row"
+          data-name="<%= user.full_name %>"
+          data-role="<%= user.role %>"
+          class="border-b border-gray-100"
+        >
+          <td class="text-sm py-2 text-left"><%= user.last_name %></td>
+          <td class="text-sm py-2 text-left"><%= user.first_name %></td>
+          <td class="text-sm py-2 text-left"><%= user.role %></td>
+          <td class="text-sm py-2 text-center">
+            <% if user.active? %>
+              <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Actif</span>
+            <% else %>
+              <span class="bg-gray-100 text-gray-500 text-xs px-2 py-0.5 rounded-full">Inactif</span>
+            <% end %>
+          </td>
+          <% if !user.admin? || current_user.admin? %>
+            <td class="text-sm py-2 text-right">
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-5 h-5 inline-block cursor-pointer hover:bg-gray-400 rounded-xs"
+                data-action="click->dashboard#menudisplay"
+                data-dashboard-target="toggle"
+                data-toggle="<%= user.id %>"
+              >
+                <path d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+              </svg>
+
+              <div
+                data-dashboard-target="menu"
+                data-toggle-id="<%= user.id %>"
+                class="hidden bg-gray-600 text-white border border-gray-100 text-xs px-2 py-3"
+              >
+                <a 
+                  href="#"
+                  class="flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-white"
+                  data-action="click->dashboard#showSlots"
+                  data-user-id="<%= user.id %>"
+                >
+                  Afficher les astreintes
+                </a>
+                <% if current_user.admin? %>
+                  <a href="#"
+                    class="flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-white"
+                    data-action="click->dashboard#openRole"
+                    data-user-id="<%= user.id %>"
+                    data-role="admin"
+                  >
+                    Changer le rôle
+                  </a>
+                <% end %>
+
+                <% if current_user.global_manager? && @services.present? %>
+                  <form action="/users/<%= user.id %>/change_service" method="post" class="px-4 py-2.5"
+                    data-action="click->dashboard#stopPropagation">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <select name="service_id" onchange="this.form.submit()"
+                      data-action="click->dashboard#stopPropagation"
+                      class="w-full text-gray-800 text-xs rounded px-1 py-1">
+                      <option value="">— Service —</option>
+                      <% @services.each do |service| %>
+                        <option value="<%= service.id %>" <%= 'selected' if user.service_id == service.id %>><%= service.name %></option>
+                      <% end %>
+                    </select>
+                  </form>
+                <% end %>
+                <% if user.active? %>
+                  <a href="#"
+                    class="flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-white"
+                    data-action="click->dashboard#disable"
+                    data-user-id="<%= user.id %>"
+                  >
+                    Désactiver
+                  </a>
+                <% else %>
+                  <a href="#"
+                    class="flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-white"
+                    data-action="click->dashboard#enable"
+                    data-user-id="<%= user.id %>"
+                  >
+                    Activer
+                  </a>
+                <% end %>
+                
+                <% if current_user.admin? %>
+                  <a href="#"
+                    class="flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-red-200"
+                    data-action="click->dashboard#destroy"
+                    data-user-id="<%= user.id %>"
+                  >
+                    Supprimer
+                  </a>
+                <% end %>  
+              </div>
+
+            </td>
+           <% end %> 
+        </tr>
+      <% end %>
+    </tbody>

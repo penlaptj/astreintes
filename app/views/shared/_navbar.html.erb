@@ -1,0 +1,252 @@
+<nav class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-gray-100">
+  <div class="mx-auto px-4 md:px-8 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="/slots" class="flex items-center space-x-3">
+
+      <div class="w-8 h-8 rounded-xl bg-green-50 flex items-center justify-center shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 text-green-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor">
+
+          <path stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.8"
+            d="M8 7V3m8 4V3m-9 8h10m-11 9h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v11a2 2 0 002 2z"/>
+        </svg>
+      </div>
+
+      <div>
+        <h1 class="text-xl font-bold tracking-tight text-gray-900">
+          Astreintes
+        </h1>
+      </div>
+
+    </a>
+
+    <% if logged_in? %>
+
+      <!-- Navigation -->
+      <div class="hidden md:flex items-center space-x-8 h-full">
+
+        <!-- Calendrier -->
+        <a href="/calendar"
+          class="relative h-full flex items-center text-sm font-medium transition-all duration-200
+          <%= current_page?('/calendar') ?
+            'text-green-600 after:absolute after:left-0 after:top-9 after:h-[1px] after:w-full after:bg-green-500 after:rounded-full'
+            :
+            'text-gray-600 hover:text-green-600'
+          %>">
+
+          Calendrier
+        </a>
+
+        <!-- Astreintes -->
+        <a href="/slots"
+          class="relative h-full flex items-center text-sm font-medium transition-all duration-200
+          <%= current_page?('/slots') ?
+            'text-green-600 after:absolute after:left-0 after:top-9 after:h-[1px] after:w-full after:bg-green-500 after:rounded-full'
+            :
+            'text-gray-600 hover:text-green-600'
+          %>">
+
+          Astreintes
+        </a>
+
+        <!-- Mes astreintes -->
+        <a href="/mes_astreintes"
+          class="relative h-full flex items-center text-sm font-medium transition-all duration-200
+          <%= current_page?('/mes_astreintes') ?
+            'text-green-600 after:absolute after:left-0 after:top-9 after:h-[1px] after:w-full after:bg-green-500 after:rounded-full'
+            :
+            'text-gray-600 hover:text-green-600'
+          %>">
+
+          Mes Astreintes
+        </a>
+
+        <!-- Dashboard : visible pour admin ET responsable -->
+        <% if current_user.manager? %>
+
+          <a href="/dashboard"
+            class="relative h-full flex items-center text-sm font-medium transition-all duration-200
+            <%= request.path.start_with?('/dashboard') ?
+              'text-green-600 after:absolute after:left-0 after:top-9 after:h-[1px] after:w-full after:bg-green-500 after:rounded-full'
+              :
+              'text-gray-600 hover:text-green-600'
+            %>">
+
+            Dashboard
+          </a>
+
+        <% end %>
+
+      </div>
+
+      <!-- Right -->
+      <div class="flex items-center space-x-4">
+        <div data-controller="notification">
+
+          <%= render "notifications/badge" %>
+          <div data-notification-target="list">
+            
+          </div>
+        </div>
+        <!-- User Dropdown -->
+        <div
+          class="relative"
+          data-controller="dropdown"
+          data-action="click@window->dropdown#close"
+        >
+
+          <button
+            data-action="click->dropdown#toggle"
+            class="flex items-center space-x-3 pl-2 pr-3 py-2 rounded-2xl hover:bg-gray-50 transition-all duration-200 border border-gray-100 cursor-pointer"
+          >
+
+            <div class="relative">
+
+              <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 text-white flex items-center justify-center font-semibold shadow-sm">
+
+                <%= current_user.first_name[0] %><%= current_user.last_name[0] %>
+
+              </div>
+
+              <% if has_unread_notification %>
+
+                <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white"></span>
+
+              <% end %>
+
+            </div>
+
+            <div class="hidden lg:block text-left">
+
+              <p class="text-sm font-semibold text-gray-800 leading-none">
+                <%= current_user.first_name %>
+              </p>
+
+              <p class="text-xs text-gray-400 mt-1">
+                <%= current_user.role_label %>
+              </p>
+
+            </div>
+
+          </button>
+
+          <!-- Dropdown -->
+          <div
+            data-dropdown-target="menu"
+            class="hidden absolute w-40 bg-white rounded-lg shadow-2xl z-50"
+          >
+            <% if false %>     
+            <!-- Header -->
+            <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/70">
+
+              <p class="text-xs text-gray-400 mb-1">
+                Connecté en tant que
+              </p>
+
+              <p class="text-sm font-semibold text-gray-900 truncate">
+                <%= current_user.full_name %>
+              </p>
+
+              <p class="text-xs text-gray-400 truncate mt-1">
+                <%= current_user.email %>
+              </p>
+
+            </div>
+            <% end %>
+
+            <!-- Links -->
+            <div class="p-2">
+
+              <!-- Navigation principale (visible mobile uniquement, la barre nav est hidden < md) -->
+              <div class="md:hidden border-b border-gray-100 pb-2 mb-2">
+                <a href="/calendar" class="flex items-center space-x-3 px-4 py-3 rounded-2xl hover:bg-gray-50 transition-all text-sm text-gray-700">
+                  Calendrier
+                </a>
+                <a href="/slots" class="flex items-center space-x-3 px-4 py-3 rounded-2xl hover:bg-gray-50 transition-all text-sm text-gray-700">
+                  Astreintes
+                </a>
+                <% if current_user.manager? %>
+                  <a href="/dashboard" class="flex items-center space-x-3 px-4 py-3 rounded-2xl hover:bg-gray-50 transition-all text-sm text-gray-700">
+                    Dashboard
+                  </a>
+                <% end %>
+              </div>
+
+              <a href="/profile"
+                class="flex items-center space-x-3 px-4 py-3 rounded-2xl hover:bg-gray-50 transition-all text-xs text-gray-700">
+
+                <span>Profil</span>
+
+              </a>
+
+              <a href="/preferences"
+                class="flex items-center space-x-3 px-4 py-3 rounded-2xl hover:bg-gray-50 transition-all text-xs text-gray-700">
+
+                <span>Préférences</span>
+
+              </a>
+
+              <a href="/mes_astreintes"
+                class="flex items-center space-x-3 px-4 py-3 rounded-2xl hover:bg-gray-50 transition-all text-xs text-gray-700">
+
+                <span>Mes astreintes</span>
+
+              </a>
+
+              <a href="/notifications"
+                class="flex items-center justify-between px-4 py-3 rounded-2xl hover:bg-gray-50 transition-all text-xs text-gray-700">
+
+                <div class="flex items-center space-x-3">
+
+                  <span>Notifications</span>
+
+                </div>
+
+                <% if has_unread_notification %>
+
+                  <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+
+                <% end %>
+
+              </a>
+
+            </div>
+
+            <!-- Logout -->
+            <div class="p-2 border-t border-gray-100">
+
+              <%= button_to "/logout",
+                method: :delete,
+                class: "w-full flex items-center space-x-3 px-4 py-3 rounded-2xl hover:bg-red-50 transition-all text-xs text-red-500 text-left" do %>
+
+                <span>Déconnexion</span>
+
+              <% end %>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    <% else %>
+
+      <a href="/login"
+        class="px-5 py-3 rounded-2xl bg-green-600 hover:bg-green-700 text-white font-medium shadow-lg shadow-green-100 transition-all duration-200">
+
+        Se connecter
+
+      </a>
+
+    <% end %>
+
+  </div>
+</nav>

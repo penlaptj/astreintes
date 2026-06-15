@@ -1,0 +1,33 @@
+<div
+  class="hidden fixed inset-0 bg-black/30 flex items-center justify-center z-50"
+  data-recap-target="recap"
+  data-action="click->recap#stopPropagation"
+>
+  <div class="bg-white rounded-2xl shadow-lg p-6 w-90" 
+    data-action="click->recap#stopPropagation">
+    
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-sm font-semibold text-gray-800" data-recap-target="recapTitle">
+        Astreintes
+      </h2>
+      <button
+        data-action="click->recap#closeRecap"
+        class="text-gray-400 hover:text-gray-600 text-xs cursor-pointer"
+      >
+        ✕
+      </button>
+    </div>
+
+    <div data-recap-target="recapContent"></div>
+
+    <div class="flex gap-3 mt-4">
+      <button
+        data-action="click->recap#closeRecap"
+        class="flex-1 border border-gray-200 text-gray-600 text-sm py-2 rounded-lg hover:bg-gray-50 curser-pointer"
+      >
+        Fermer
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+  <h2 style="color: #DC2626;">Astreinte supprimée</h2>
+
+  <p>Bonjour <%= @user.first_name %>,</p>
+
+  <p>L'astreinte suivante, qui vous était assignée, a été supprimée :</p>
+
+  <div style="background: #F3F4F6; padding: 16px; border-radius: 8px; margin: 16px 0;">
+    <p><strong>Début :</strong> <%= @details[:starts_at]&.strftime("%d/%m/%Y %H:%M") %></p>
+    <p><strong>Fin :</strong> <%= @details[:ends_at]&.strftime("%d/%m/%Y %H:%M") %></p>
+    <% if @details[:description].present? %>
+      <p><strong>Description :</strong> <%= @details[:description] %></p>
+    <% end %>
+  </div>
+</div>

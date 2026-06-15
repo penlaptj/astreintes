@@ -1,0 +1,49 @@
+<div class="flex justify-between items-center gap-4 mb-8">
+
+  <!-- FILTRE (status) -->
+  <div class="w-1/2">
+    <select
+      class="w-full bg-white/80 border border-gray-300 rounded-lg px-4 py-2.5 text-sm cursor-pointer text-gray-400"
+      data-filter-target="status"
+      data-action="change->filter#status"
+    >
+      <option value="">-- status --</option>
+      <option value="in_progress" <%= "selected" if params[:status] == "in_progress" %>>En cours</option>
+      <option value="passed" <%= "selected" if params[:status] == "passed" %>>Terminée</option>
+      <option value="upcoming" <%= "selected" if params[:status] == "upcoming" %>>À venir</option>
+      <option value=""> All </option>
+    </select>
+  </div>
+
+  <!-- FILTRE (type) -->
+  <div class="w-1/2">
+    <select
+      class="w-full bg-white/80 border border-gray-300 rounded-lg px-4 py-2.5 text-sm cursor-pointer text-gray-400"
+      data-filter-target="type"
+      data-action="change->filter#type"
+    >
+      <option value="">-- Compensation --</option>
+      <option value="jours" <%= "selected" if params[:type] == "jours" %>>Jours</option>
+      <option value="euro" <%= "selected" if params[:type] == "euro" %>>Euro (€)</option>
+      <option value=""> All </option>
+      </select>
+  </div>
+
+  <!-- TRI -->
+  <div class="w-1/2">
+    <select
+      class="w-full bg-white/80 border border-gray-300 rounded-lg px-4 py-2.5 text-sm cursor-pointer text-gray-400"
+      data-filter-target="sort"
+      data-action="change->filter#sort"
+    >
+      <option value="" selected disabled>-- Trier Par --</option>
+      <option value="date" <%= "selected" if params[:sort] == "date" %>>date</option>
+      <option value="compensation" <%= "selected" if params[:sort] == "compensation" %>>compensation</option>
+      <option value="duration" <%= "selected" if params[:sort] == "duration" %>>durée</option>
+      <option value=""> All </option>
+    </select>
+  </div>
+
+  
+
+</div>

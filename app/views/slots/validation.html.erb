@@ -1,0 +1,52 @@
+<div class="max-w-3xl mx-auto px-6 py-8">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-xl font-bold text-gray-800">Demandes à valider</h1>
+      <p class="text-sm text-gray-400 mt-1"><%= @slots.size %> demande(s) en attente</p>
+    </div>
+    <%= link_to "← Tableau de bord", "/dashboard/astreintes", class: "text-sm text-gray-400 hover:text-gray-600" %>
+  </div>
+
+  <% if @slots.empty? %>
+    <div class="text-center py-20 text-gray-300">
+      <p class="text-lg">Aucune demande en attente</p>
+    </div>
+  <% else %>
+    <div class="space-y-4">
+      <% @slots.each do |slot| %>
+        <div class="border border-gray-100 rounded-xl p-5 bg-white shadow-sm">
+          <div class="flex justify-between items-start gap-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-medium bg-indigo-50 text-indigo-600 px-2.5 py-0.5 rounded-full capitalize"><%= slot.slot_type %></span>
+                <% if slot.service %>
+                  <span class="text-xs font-medium bg-gray-100 text-gray-600 px-2.5 py-0.5 rounded-full"><%= slot.service.name %></span>
+                <% end %>
+              </div>
+              <p class="text-sm font-semibold text-gray-800">
+                <%= slot.starts_at.strftime("%d/%m/%Y %H:%M") %>
+                <span class="text-gray-400 mx-1">→</span>
+                <%= slot.ends_at.strftime("%d/%m/%Y %H:%M") %>
+              </p>
+              <p class="text-xs text-gray-500 mt-1">
+                Demandé par
+                <span class="font-medium text-gray-700"><%= slot.requested_by&.full_name || "—" %></span>
+                · <%= slot.compensation_label %>
+              </p>
+              <% if slot.description.present? %>
+                <p class="text-xs text-gray-400 mt-1"><%= slot.description %></p>
+              <% end %>
+            </div>
+
+            <div class="flex flex-col gap-2 shrink-0">
+              <%= button_to "Valider", "/slots/#{slot.id}/validate", method: :post,
+                  class: "bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-1.5 rounded-lg cursor-pointer" %>
+              <%= button_to "Refuser", "/slots/#{slot.id}/reject", method: :post,
+                  class: "bg-gray-100 hover:bg-gray-200 text-gray-600 text-sm px-4 py-1.5 rounded-lg cursor-pointer" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

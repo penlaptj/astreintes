@@ -1,0 +1,196 @@
+<% current_channels = current_user.notification_channels.to_a.presence || ["slack"] %>
+<% current_times = current_user.notification_periods.to_a.presence || ["slots"] %>
+<!-- crénaux -->
+<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+  <h3 class="text-lg font-medium text-gray-900">Canaux supplémentaires</h3>
+  <p class="text-sm text-gray-500 mt-1 mb-4">
+    Cochez les réseaux sociaux sur lesquels vous voulez aussi recevoir vos alertes.
+  </p>
+
+  <%# Champ caché pour garantir un array vide si tout est décoché. %>
+  <input type="hidden" name="notification_periods[]" value="">
+
+  <div class="flex flex-col gap-2">
+    <div class="rounded-lg border border-gray-200 hover:bg-gray-50 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 transition">
+      <label class="flex items-center justify-between cursor-pointer px-4 py-3">
+        <div class="flex items-center gap-3">
+          <span class="text-sm font-medium text-gray-700">Horaires bureau</span>
+        </div>
+        <input type="checkbox" name="notification_periods[]" value="office"
+               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 rounded"
+               <%= 'checked' if current_times.include?('office') %>>
+      </label>
+    </div>
+    <div class="rounded-lg border border-gray-200 hover:bg-gray-50 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 transition">
+      <label class="flex items-center justify-between cursor-pointer px-4 py-3">
+        <div class="flex items-center gap-3">
+          <span class="text-sm font-medium text-gray-700">Horaires d'astreintes</span>
+        </div>
+        <input type="checkbox" value="" checked disabled
+               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 rounded">
+      </label>
+    </div>
+    <div class="rounded-lg border border-gray-200 hover:bg-gray-50 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 transition">
+      <label class="flex items-center justify-between cursor-pointer px-4 py-3">
+        <div class="flex items-center gap-3">
+          <span class="text-sm font-medium text-gray-700">Recevoir toutes les notifications</span>
+        </div>
+        <input type="checkbox" name="notification_periods[]" value="always"
+               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 rounded"
+               <%= 'checked' if current_times.include?('always') %>>
+      </label>
+    </div>
+
+
+  </div>
+</div>
+<!-- Canaux toujours actifs -->
+<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+  <h3 class="text-lg font-medium text-gray-900">Canaux par défaut</h3>
+  <p class="text-sm text-gray-500 mt-1 mb-4">
+    Toujours actifs — vous recevrez toutes les alertes importantes ici.
+  </p>
+
+  <div class="flex flex-col gap-3">
+    <!-- Email -->
+    <div class="flex items-center justify-between rounded-lg bg-gray-50 px-4 py-3">
+      <div class="flex items-center gap-3">
+        <span class="text-gray-500">✉️</span>
+        <div>
+          <p class="text-sm font-medium text-gray-800">Email</p>
+          <p class="text-xs text-gray-500"><%= current_user.email %></p>
+        </div>
+      </div>
+      <span class="text-xs font-medium text-green-700 bg-green-100 px-2.5 py-1 rounded-full">Actif</span>
+    </div>
+
+    <!-- In-app -->
+    <div class="flex items-center justify-between rounded-lg bg-gray-50 px-4 py-3">
+      <div class="flex items-center gap-3">
+        <span class="text-gray-500">🔔</span>
+        <div>
+          <p class="text-sm font-medium text-gray-800">Notifications dans l'app</p>
+          <p class="text-xs text-gray-500">Cloche en haut à droite</p>
+        </div>
+      </div>
+      <span class="text-xs font-medium text-green-700 bg-green-100 px-2.5 py-1 rounded-full">Actif</span>
+    </div>
+  </div>
+</div>
+
+<!-- Canaux sociaux (choix multiple) -->
+<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+  <h3 class="text-lg font-medium text-gray-900">Canaux supplémentaires</h3>
+  <p class="text-sm text-gray-500 mt-1 mb-4">
+    Cochez les réseaux sociaux sur lesquels vous voulez aussi recevoir vos alertes.
+  </p>
+
+
+  <input type="hidden" name="notification_channels[]" value="">
+
+  <div class="flex flex-col gap-2">
+    <!-- Slack -->
+    <div class="rounded-lg border border-gray-200 hover:bg-gray-50 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 transition">
+      <label class="flex items-center justify-between cursor-pointer px-4 py-3">
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="#4A154B" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.122 2.521a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.268 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zm-2.523 10.122a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.268a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
+          </svg>
+          <span class="text-sm font-medium text-gray-700">Slack</span>
+        </div>
+        <input type="checkbox" name="notification_channels[]" value="slack"
+               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 rounded"
+               <%= 'checked' if current_channels.include?('slack') %>>
+      </label>
+      <div class="px-4 pb-3 pl-12 text-xs">
+        <% if current_user.slack_uid.present? %>
+          <div class="flex justify-between">
+            <span class="text-green-700">✅ Compte Slack lié automatiquement via votre email.</span>
+            <%= link_to "Tester", "/preferences/test_notification?channel=slack",
+              data: { turbo: true, turbo_method: :post },
+              class: "rounded-xl bg-gray-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-black"
+            %>
+              
+          </div>
+        <% else %>
+          <span class="text-amber-700">⚠️ Compte Slack non détecté pour <%= current_user.email %>. Vérifiez que vous utilisez bien votre email Slack.</span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Discord -->
+    <div class="rounded-lg border border-gray-200 hover:bg-gray-50 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 transition">
+      <label class="flex items-center justify-between cursor-pointer px-4 py-3">
+        <div class="flex items-center gap-3">
+          <img src="https://cdn.simpleicons.org/discord" class="w-5 h-5" alt="Discord" />
+          <span class="text-sm font-medium text-gray-700">Discord</span>
+        </div>
+        <input type="checkbox" name="notification_channels[]" value="discord"
+               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 rounded"
+               <%= 'checked' if current_channels.include?('discord') %>>
+      </label>
+      <div class="px-4 pb-3 pl-12 text-xs flex flex-col gap-1">
+        <label for="discord_user_id" class="text-gray-600">
+          Votre Discord User ID
+          <span class="text-gray-400">(Paramètres Discord → Avancés → Mode développeur, puis clic droit sur votre avatar → "Copier l'identifiant")</span>
+        </label>
+        <input type="text" id="discord_user_id" name="discord_user_id"
+               value="<%= current_user.discord_user_id %>"
+               placeholder="123456789012345678"
+               class="block w-full rounded-md border-gray-300 px-2 py-1 text-sm">
+        <% if current_user.discord_user_id.present? %>
+          <div class="flex justify-between">
+            <span class="text-green-700">✅ Discord ID enregistré.</span>
+            <%= link_to "Tester", "/preferences/test_notification?channel=discord",
+              data: { turbo: true, turbo_method: :post },
+              class: "rounded-xl bg-gray-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-black"
+            %>
+              
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Telegram -->
+    <div class="rounded-lg border border-gray-200 hover:bg-gray-50 has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 transition">
+      <label class="flex items-center justify-between cursor-pointer px-4 py-3">
+        <div class="flex items-center gap-3">
+          <img src="https://cdn.simpleicons.org/telegram" class="w-5 h-5" alt="Telegram" />
+          <span class="text-sm font-medium text-gray-700">Telegram</span>
+        </div>
+        <input type="checkbox" name="notification_channels[]" value="telegram"
+               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 rounded"
+               <%= 'checked' if current_channels.include?('telegram') %>>
+      </label>
+      <div class="px-4 pb-3 pl-12 text-xs flex flex-col gap-1">
+        <% if current_user.telegram_chat_id.present? %>
+          <div class="flex justify-between">
+            <span class="text-green-700">✅ Compte Telegram lié.</span>
+            <%= link_to "Tester", "/preferences/test_notification?channel=telegram",
+                data: { turbo: true, turbo_method: :post },
+                class: "rounded-xl bg-gray-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-black"
+              %>
+          </div>
+          <%= link_to "Délier Telegram", "/preferences/telegram_link",
+                data: { turbo_method: :delete, turbo_confirm: "Délier le compte Telegram ?" },
+                class: "self-start mt-1 text-xs text-red-600 underline hover:text-red-800" %>
+        <% else %>
+          <% bot_username = ENV["TELEGRAM_BOT_USERNAME"].to_s.strip %>
+          <% if bot_username.present? %>
+            <% token = User.create_telegram_link_token(current_user) %>
+            <span class="text-gray-600">Cliquez pour ouvrir Telegram et lier votre compte :</span>
+            <a href="https://t.me/<%= bot_username %>?start=<%= token %>"
+               target="_blank" rel="noopener"
+               class="self-start inline-flex items-center gap-1 mt-1 rounded-md bg-sky-500 text-white px-3 py-1.5 hover:bg-sky-600">
+              🔗 Lier mon compte Telegram
+            </a>
+            <span class="text-gray-400">Le lien expire dans 15 minutes.</span>
+          <% else %>
+            <span class="text-amber-700">⚠️ Bot Telegram non configuré côté serveur (TELEGRAM_BOT_USERNAME absent).</span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

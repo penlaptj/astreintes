@@ -1,0 +1,6 @@
+AstreinteNotifier.with(
+  notification_type: "astreinte_reminder",
+  sender_id: sender.id,
+  sender_name: sender.full_name,
+  slot_id: slot.id
+).deliver(slot.user)

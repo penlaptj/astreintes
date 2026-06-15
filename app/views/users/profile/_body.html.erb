@@ -1,0 +1,22 @@
+<div class="max-w-2xl mx-auto px-6 py-10">
+  <div class="flex items-center gap-6 mb-10">
+    <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center text-2xl font-bold text-indigo-600">
+      <%= current_user.first_name[0].upcase %><%= current_user.last_name[0].upcase %>
+    </div>
+    <div>
+      <h1 class="text-2xl font-bold text-gray-800"><%= current_user.full_name %></h1>
+        <span class="text-xs bg-indigo-50 text-indigo-600 px-2.5 py-0.5 rounded-full font-medium capitalize">
+          <%= current_user.role %>
+        </span>
+    </div>
+  </div>
+
+  <!-- Infos -->
+    <%= render "users/profile/info_user" %>
+
+  <!-- Stats astreintes -->
+    <%= render "users/profile/info_astreintes" %>
+
+  <!-- Actions -->
+    <%= render "users/profile/action" %>
+</div>

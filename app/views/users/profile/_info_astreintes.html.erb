@@ -1,0 +1,24 @@
+<div class="grid grid-cols-3 gap-4 mb-6">
+  <div class="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 text-center">
+    <p class="text-2xl font-bold text-indigo-600"><%= current_user.slots.count %></p>
+    <p class="text-xs text-gray-400 mt-1">Astreintes totales</p>
+  </div>
+  <div class="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 text-center">
+    <p class="text-2xl font-bold text-green-600">
+      <%= current_user.slots.sum(:compensation_money).to_i %> €
+    </p>
+    <p class="text-xs text-gray-400 mt-1">Compensation totale en €</p>
+  </div>
+  <div class="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 text-center">
+    <p class="text-2xl font-bold text-green-600">
+      <%= current_user.slots.sum(:compensation_days).to_f %> Jours
+    </p>
+    <p class="text-xs text-gray-400 mt-1">Compensation totale en jours</p>
+  </div>
+  <div class="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 text-center">
+    <p class="text-2xl font-bold text-gray-700">
+      <%= current_user.slots.sum { |s| s.duration_hours } %>h
+    </p>
+    <p class="text-xs text-gray-400 mt-1">Heures totales</p>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+<div class="overflow-x-auto -mx-4 md:mx-0 px-4 md:px-0">
+
+  <!-- Tableau -->
+  <table class="w-full min-w-[640px]">
+    <thead>
+      <tr class="border-b border-gray-200">
+        <th class="text-xs font-semibold text-left pb-2">Début</th>
+        <th class="text-xs font-semibold text-left pb-2">Fin</th>
+        <th class="text-xs font-semibold text-left pb-2">Type</th>
+        <th class="text-xs font-semibold text-left pb-2">Compensation</th>
+        <th class="text-xs font-semibold text-left pb-2">Assigné</th>
+        <% if !@is_history %>
+          <th class="text-sm font-semibold text-right pb-2">Actions</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% (slots || []).each do |slot| %>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="text-sm py-2 text-left"><%= slot.starts_at.strftime("%d/%m %Hh%M") %></td>
+          <td class="text-sm py-2 text-left"><%= slot.ends_at.strftime("%d/%m %Hh%M") %></td>
+          <td class="text-sm py-2">
+            <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full capitalize">
+              <%= slot.slot_type %>
+            </span>
+          </td>
+          <td class="text-sm py-2 text-left font-semibold text-indigo-600">
+            <%= slot.compensation_label %>
+          </td>
+          <td class="text-sm py-2 text-left">
+            <%= slot.user&.full_name || "_" %>
+          </td>
+          <% if !@is_history %>
+            <td class="text-right">
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-5 h-5 inline-block cursor-pointer hover:bg-gray-400 rounded-xs"
+                data-action="click->dashboard#menudisplay"
+                data-dashboard-target="toggle"
+                data-toggle="<%= slot.id %>"
+              >
+                <path d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+              </svg>
+
+              <div
+                data-dashboard-target="menu"
+                data-toggle-id="<%= slot.id %>"
+                class="hidden bg-gray-600 text-white border border-gray-100 text-xs px-2 py-3"
+              >
+                
+                <a href="/slots/<%= slot.id %>/edit" class="flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-white">
+                  Modifier
+                </a>
+
+                <% if slot.available? %>
+                  <button
+                    data-action="click->dashboard#openAssign"
+                    data-slot-id="<%= slot.id %>"
+                    class="flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-white"
+                  >
+                    Assigner
+                  </button>
+                <% else %>
+                  <button
+                    data-action="click->dashboard#openAssign"
+                    data-slot-id="<%= slot.id %>"
+                    class="flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-white"
+                  >
+                    Réassigner
+                  </button>
+
+                  <% if slot.assigned? && slot.user %>
+                    <%= button_to "/slots/#{slot.id}/unassign",
+                      method: :post,
+                      form: { style: "display:inline", data: { turbo_confirm: "Désassigner #{slot.user.full_name} de cette astreinte ? Elle redeviendra disponible." } },
+                      class: "w-full flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-orange-200 text-left" do %>
+                      Désassigner
+                    <% end %>
+
+                    <%= button_to "/slots/#{slot.id}/notify",
+                      method: :post,
+                      form: { style: "display:inline", data: { turbo_confirm: "Convoquer #{slot.user.first_name} immédiatement pour cette astreinte ?" } },
+                      class: "w-full flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-yellow-200 text-left" do %>
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                              d="M15 17h5l-1.4-1.4A2 2 0 0118 14.17V11a6 6 0 10-12 0v3.17a2 2 0 01-.6 1.43L4 17h5m6 0a3 3 0 11-6 0m6 0H9"/>
+                      </svg>
+                      <span>Notifier</span>
+                    <% end %>
+                  <% end %>
+
+                  <% if slot.pending? && slot.requested_by %>
+                    <div class="px-4 py-2.5 text-xs text-amber-200 italic">
+                      Demande en attente de <%= slot.requested_by.full_name %>
+                    </div>
+                  <% end %>
+                <% end %>
+
+                <%= button_to "/slots/#{slot.id}", method: :delete,
+                  form: { style: "display:inline" },
+                  class: "flex items-center space-x-3 px-4 py-2.5 hover:bg-gray-700 transition-colors text-sm text-red-200" do %>
+                  Supprimer
+                <% end %>
+
+              </div>
+
+              
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+
+      <% if (slots || []).empty? %>
+        <tr>
+          <td colspan="4" class="text-center text-gray-300 py-10 text-sm">
+            Aucune astreinte
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>

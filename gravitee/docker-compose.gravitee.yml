@@ -1,0 +1,95 @@
+name: gravitee-astreintes
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: gravitee_mongodb
+    environment:
+      MONGO_INITDB_DATABASE: gravitee
+    volumes:
+      - gravitee_mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    container_name: gravitee_elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - gravitee_es_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:9200/_cluster/health | grep -E 'green|yellow' || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+
+  gateway:
+    image: graviteeio/apim-gateway:4.5
+    container_name: gravitee_gateway
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "8082:8082"
+    environment:
+      gravitee_management_mongodb_uri: mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000
+      gravitee_ratelimit_mongodb_uri: mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000
+      gravitee_reporters_elasticsearch_endpoints_0: http://elasticsearch:9200
+      gravitee_services_core_http_enabled: "true"
+      gravitee_services_core_http_port: 18082
+      gravitee_services_core_http_host: 0.0.0.0
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  management_api:
+    image: graviteeio/apim-management-api:4.5
+    container_name: gravitee_management_api
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "8083:8083"
+    environment:
+      gravitee_management_mongodb_uri: mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000
+      gravitee_analytics_elasticsearch_endpoints_0: http://elasticsearch:9200
+
+  management_ui:
+    image: graviteeio/apim-management-ui:4.5
+    container_name: gravitee_management_ui
+    depends_on:
+      - management_api
+    ports:
+      - "8084:8080"
+    environment:
+      MGMT_API_URL: http://localhost:8083/management/
+
+  portal_ui:
+    image: graviteeio/apim-portal-ui:4.5
+    container_name: gravitee_portal_ui
+    depends_on:
+      - management_api
+    ports:
+      - "8085:8080"
+    environment:
+      PORTAL_API_URL: http://localhost:8083/portal/
+
+volumes:
+  gravitee_mongodb_data:
+  gravitee_es_data:

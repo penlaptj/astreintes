@@ -1,0 +1,23 @@
+<div class="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4 mb-6 md:mb-8">
+  <div class="w-full sm:w-5/6">
+    <input
+      class="w-full border border-gray-300 px-4 py-2.5 text-sm text-gray-400 rounded-lg"
+      placeholder="Rechercher des utilisateurs"
+      data-filter-target="input"
+      data-action="input->filter#filter"
+    >
+  </div>
+  <div class="w-full sm:w-1/6">
+    <select
+      class="w-full border border-gray-300 px-4 py-2.5 text-sm text-gray-400 rounded-lg"
+      name="role"
+      data-filter-target="role"
+      data-action="change->filter#role"
+    >
+      <option value="">-- Choisir --</option>
+      <option value="collaborateur">Collaborateur</option>
+      <option value="responsable">Responsable</option>
+      <option value="admin">Administrateur</option>
+    </select>
+  </div>
+</div>

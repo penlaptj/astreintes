@@ -1,0 +1,14 @@
+<table class="w-full table-fixed">
+  <thead>
+    <tr class="border-b border-gray-200">
+      <th class="text-xs font-semibold text-left pb-2">Nom</th>
+      <th class="text-xs font-semibold text-left pb-2">Prénom</th>
+      <th class="text-xs font-semibold text-left pb-2">Rôle</th>
+      <th class="text-xs font-semibold text-left pb-2">Compensation_euro</th>
+      <th class="text-xs font-semibold text-left pb-2">Compensation_jours</th>
+    </tr>
+  </thead>
+  <tbody data-recap-target="recapContent">
+    <%= render "/slots/recap_rows", users: @users, slots_by_user: @slots_by_user %>
+  </tbody>
+</table>

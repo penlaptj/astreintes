@@ -1,0 +1,57 @@
+<div
+  class="max-w-6xl mx-auto px-4 md:px-6 py-4 md:py-8"
+  data-controller="calendar"
+  data-calendar-slots-value="<%= @slots_json %>"
+  data-calendar-current-user-value="<%= current_user.id %>"
+  data-calendar-is-admin-value="<%= current_user.admin? %>"
+>
+
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6 md:mb-8">
+    <h1 class="text-xl md:text-xl font-bold text-gray-800">Calendrier des astreintes</h1>
+    <div class="flex flex-wrap items-center gap-3 md:gap-4">
+      <% if !current_user.collaborateur? %>
+        <select
+          data-action="change->calendar#filter"
+          data-calendar-target="userSelect"
+          class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="">Tous les utilisateurs</option>
+          <% @users.each do |user| %>
+            <option value="<%= user.id %>"><%= user.full_name %></option>
+          <% end %>
+        </select>
+      <% end %>
+      
+    </div>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-10">
+    <span class="flex items-center gap-1.5 text-xs text-gray-500">
+      <span class="w-3 h-3 rounded-full inline-block" style="background:#6366f1"></span>
+        Disponible
+    </span>
+    <span class="flex items-center gap-1.5 text-xs text-gray-500">
+      <span class="w-3 h-3 rounded-full inline-block" style="background:#f59e0b"></span>
+      En attente
+    </span>
+
+    <% @users.each do |user| %>
+      <span class="flex items-center gap-1.5 text-xs text-gray-500">
+        <span class="w-3 h-3 rounded-full inline-block"
+          style="background:<%= color_for_user(user.id) %>"></span>
+          <%= user.full_name %>
+      </span>
+    <% end %>
+  </div>
+
+  <div class="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+    <div
+      id="calendar"
+      data-calendar-target="calendarEl"
+    ></div>
+  </div>
+
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>

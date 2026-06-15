@@ -1,0 +1,21 @@
+<div class="w-full md:w-4/5 max-w-2xl mx-auto px-4 md:px-6 py-6 md:py-10" data-controller="user">
+
+  <%= render "users/securite/header_password" %>
+
+  <div class="hidden flex flex-col gap-5 mb-5"
+    data-user-target="menu"
+    data-chevron-id="password">
+      <%= render "users/securite/body_password" %>
+  </div>
+
+  <% if current_user.admin? %>
+    <%= render "users/securite/header_sso" %>
+
+    <div class="hidden flex flex-col gap-5 mb-5"
+      data-user-target="menu"
+      data-chevron-id="sso">
+        <%= render "users/securite/body_sso" %>
+    </div>
+  <% end %>
+
+</div>

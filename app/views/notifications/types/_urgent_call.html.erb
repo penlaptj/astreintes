@@ -1,0 +1,59 @@
+<%
+  p = notification.event.params
+  starts_at = p[:slot_starts_at]
+  ends_at   = p[:slot_ends_at]
+  starts_at = Time.zone.parse(starts_at.to_s) if starts_at.is_a?(String)
+  ends_at   = Time.zone.parse(ends_at.to_s)   if ends_at.is_a?(String)
+%>
+
+<div class="border border-red-200 bg-white rounded-2xl mx-auto px-6 py-5 shadow-sm ring-1 ring-red-200">
+
+  <div class="flex items-start gap-4">
+    <!-- Icône alerte -->
+    <div class="shrink-0 w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+              d="M15 17h5l-1.4-1.4A2 2 0 0118 14.17V11a6 6 0 10-12 0v3.17a2 2 0 01-.6 1.43L4 17h5m6 0a3 3 0 11-6 0m6 0H9"/>
+      </svg>
+    </div>
+
+    <div class="flex-1 min-w-0">
+      <div class="flex items-start justify-between gap-3">
+        <h3 class="font-semibold text-gray-900 leading-snug">
+          Convocation immédiate
+        </h3>
+        <span class="shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-red-100 text-red-700">
+          Urgent
+        </span>
+      </div>
+
+      <p class="text-sm text-gray-700 mt-2">
+        <span class="font-medium"><%= p[:sender_name] %></span>
+        vous convoque immédiatement pour votre astreinte.
+      </p>
+
+      <div class="mt-3 rounded-xl bg-gray-50 p-3 text-sm text-gray-700 space-y-1">
+        <% if starts_at && ends_at %>
+          <div>
+            <span class="text-gray-500">Période&nbsp;:</span>
+            <span class="font-medium">
+              <%= starts_at.strftime("%d/%m %Hh%M") %> → <%= ends_at.strftime("%d/%m %Hh%M") %>
+            </span>
+          </div>
+        <% end %>
+        <% if p[:slot_compensation].present? %>
+          <div>
+            <span class="text-gray-500">Compensation&nbsp;:</span>
+            <span class="font-medium text-indigo-600"><%= p[:slot_compensation] %></span>
+          </div>
+        <% end %>
+        <% if p[:slot_description].present? %>
+          <div>
+            <span class="text-gray-500">Détail&nbsp;:</span>
+            <%= p[:slot_description] %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

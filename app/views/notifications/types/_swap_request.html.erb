@@ -1,0 +1,13 @@
+<div class="mb-8 px-8 py-8 text-sm text-gray-500">
+  <p>Salut <%= current_user.first_name %>, <%= notification.event.params[:sender_name] %> voudrais-tu prendre son astreinte</p>
+
+  <div class="border-b my-2"></div>
+  <p class="text-center underline">Informations sur l'astreinte</p>
+  <p>Début : <%= Time.zone.parse(notification.event.params[:slot_starts_at].to_s).strftime("%d/%m/%Y %H:%M") %></p>
+  <p>Fin : <%= Time.zone.parse(notification.event.params[:slot_ends_at].to_s).strftime("%d/%m/%Y %H:%M") %></p>
+  <p>Compensation : <%= notification.event.params[:slot_compensation] %></p>
+</div>
+
+<% unless notification.read? %>
+  <%= render "notifications/buttons_decision", notification: notification %>
+<% end %>

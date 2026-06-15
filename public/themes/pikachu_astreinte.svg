@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360">
+  <defs>
+    <radialGradient id="bodyG" cx="35%" cy="30%" r="80%">
+      <stop offset="0%"  stop-color="#ffeb7a"/>
+      <stop offset="55%" stop-color="#ffcb05"/>
+      <stop offset="100%" stop-color="#b88500"/>
+    </radialGradient>
+    <radialGradient id="headG" cx="30%" cy="25%" r="85%">
+      <stop offset="0%"  stop-color="#fff099"/>
+      <stop offset="60%" stop-color="#ffcb05"/>
+      <stop offset="100%" stop-color="#c29400"/>
+    </radialGradient>
+    <radialGradient id="bellyG" cx="50%" cy="35%" r="65%">
+      <stop offset="0%"  stop-color="#fff8c8"/>
+      <stop offset="100%" stop-color="#fae89a"/>
+    </radialGradient>
+    <radialGradient id="cheekG" cx="40%" cy="40%" r="60%">
+      <stop offset="0%"  stop-color="#ff9494"/>
+      <stop offset="65%" stop-color="#e91e1e"/>
+      <stop offset="100%" stop-color="#900808"/>
+    </radialGradient>
+    <linearGradient id="tailG" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%"  stop-color="#fff099"/>
+      <stop offset="55%" stop-color="#ffcb05"/>
+      <stop offset="100%" stop-color="#b88500"/>
+    </linearGradient>
+    <linearGradient id="tieG" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#6a0000"/>
+      <stop offset="50%"  stop-color="#cc1a3a"/>
+      <stop offset="100%" stop-color="#6a0000"/>
+    </linearGradient>
+    <linearGradient id="watchBandG" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"  stop-color="#444"/>
+      <stop offset="50%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#333"/>
+    </linearGradient>
+    <radialGradient id="coffeeG" cx="50%" cy="50%" r="60%">
+      <stop offset="0%"  stop-color="#6b3a10"/>
+      <stop offset="100%" stop-color="#2a1404"/>
+    </radialGradient>
+    <radialGradient id="mugG" cx="40%" cy="30%" r="80%">
+      <stop offset="0%"  stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#d8d8d8"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Ombre au sol -->
+  <ellipse cx="155" cy="338" rx="85" ry="8" fill="#000" opacity="0.28"/>
+
+  <!-- Queue éclair (en arrière-plan) -->
+  <path d="M222 195 L290 122 L257 140 L298 92 L252 128 L278 178 Z"
+        fill="url(#tailG)" stroke="#5a3a00" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Base brune de la queue -->
+  <path d="M222 195 L243 175 L228 188 Z" fill="#7a3a00"/>
+  <!-- Ombrage queue -->
+  <path d="M278 178 L260 160 L252 128 L245 145" fill="#000" opacity="0.18"/>
+
+  <!-- CORPS -->
+  <ellipse cx="155" cy="240" rx="72" ry="68" fill="url(#bodyG)" stroke="#5a3a00" stroke-width="2.5"/>
+  <!-- Ventre clair -->
+  <ellipse cx="155" cy="258" rx="46" ry="40" fill="url(#bellyG)"/>
+  <!-- Bandes brunes du dos visibles latéralement -->
+  <path d="M92 218 Q86 232 90 246" fill="none" stroke="#7a3a00" stroke-width="4" stroke-linecap="round"/>
+  <path d="M218 218 Q224 232 220 246" fill="none" stroke="#7a3a00" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- JAMBES -->
+  <ellipse cx="125" cy="308" rx="20" ry="15" fill="url(#bodyG)" stroke="#000" stroke-width="2.5"/>
+  <ellipse cx="185" cy="308" rx="20" ry="15" fill="url(#bodyG)" stroke="#000" stroke-width="2.5"/>
+  <!-- Détails pattes -->
+  <path d="M115 316 L113 322 M125 318 L125 324 M135 316 L137 322" stroke="#5a3a00" stroke-width="2" stroke-linecap="round"/>
+  <path d="M175 316 L173 322 M185 318 L185 324 M195 316 L197 322" stroke="#5a3a00" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- BRAS GAUCHE (tient le café) -->
+  <ellipse cx="85" cy="248" rx="17" ry="32" fill="url(#bodyG)" stroke="#000" stroke-width="2.5"/>
+  <!-- Patte -->
+  <circle cx="78" cy="278" r="4" fill="#7a3a00"/>
+  <circle cx="85" cy="280" r="4" fill="#7a3a00"/>
+  <circle cx="92" cy="278" r="4" fill="#7a3a00"/>
+
+  <!-- BRAS DROIT (porte la montre) -->
+  <ellipse cx="225" cy="248" rx="17" ry="32" fill="url(#bodyG)" stroke="#000" stroke-width="2.5"/>
+
+  <!-- MONTRE -->
+  <rect x="210" y="263" width="30" height="8" rx="2" fill="url(#watchBandG)" stroke="#000" stroke-width="1.5"/>
+  <rect x="210" y="276" width="30" height="8" rx="2" fill="url(#watchBandG)" stroke="#000" stroke-width="1.5"/>
+  <!-- Boîtier -->
+  <rect x="212" y="266" width="26" height="18" rx="4" fill="#2a2a2a" stroke="#000" stroke-width="1.5"/>
+  <!-- Cadran -->
+  <circle cx="225" cy="275" r="9" fill="#f5f5f5" stroke="#000" stroke-width="1.5"/>
+  <circle cx="225" cy="275" r="7.5" fill="#fff"/>
+  <!-- Marqueurs des heures -->
+  <circle cx="225" cy="269" r="0.8" fill="#000"/>
+  <circle cx="231" cy="275" r="0.8" fill="#000"/>
+  <circle cx="225" cy="281" r="0.8" fill="#000"/>
+  <circle cx="219" cy="275" r="0.8" fill="#000"/>
+  <!-- Aiguilles -->
+  <line x1="225" y1="275" x2="225" y2="270" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="225" y1="275" x2="229" y2="276.5" stroke="#000" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="225" y1="275" x2="226" y2="278" stroke="#e63946" stroke-width="0.8" stroke-linecap="round"/>
+  <circle cx="225" cy="275" r="1" fill="#000"/>
+  <!-- Couronne (bouton remontoir) -->
+  <rect x="238" y="273" width="3" height="4" fill="#2a2a2a"/>
+
+  <!-- Patte droite -->
+  <circle cx="218" cy="291" r="4" fill="#7a3a00"/>
+  <circle cx="225" cy="293" r="4" fill="#7a3a00"/>
+  <circle cx="232" cy="291" r="4" fill="#7a3a00"/>
+
+  <!-- CRAVATE -->
+  <!-- Nœud -->
+  <path d="M147 178 L163 178 L170 196 L140 196 Z" fill="url(#tieG)" stroke="#400000" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Pli du nœud -->
+  <path d="M155 178 L155 196" stroke="#400000" stroke-width="1" opacity="0.6"/>
+  <!-- Corps de la cravate -->
+  <path d="M140 196 L170 196 L167 230 L172 255 L155 285 L138 255 L143 230 Z"
+        fill="url(#tieG)" stroke="#400000" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Reflet vertical -->
+  <path d="M155 198 L155 280" stroke="#ff6a6a" stroke-width="1.2" opacity="0.5"/>
+  <!-- Petits rayures diagonales -->
+  <path d="M144 210 L168 218 M142 232 L170 240 M141 254 L171 262" stroke="#400000" stroke-width="0.6" opacity="0.45"/>
+
+  <!-- TÊTE -->
+  <circle cx="155" cy="130" r="66" fill="url(#headG)" stroke="#5a3a00" stroke-width="2.5"/>
+
+  <!-- OREILLES -->
+  <path d="M113 92 Q72 25 100 16 Q128 30 134 86 Z"
+        fill="url(#bodyG)" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M197 92 Q238 25 210 16 Q182 30 176 86 Z"
+        fill="url(#bodyG)" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Pointes noires -->
+  <path d="M82 25 Q100 16 115 60 Q102 50 85 38 Z" fill="#1a1a1a"/>
+  <path d="M228 25 Q210 16 195 60 Q208 50 225 38 Z" fill="#1a1a1a"/>
+  <!-- Intérieur rose des oreilles -->
+  <path d="M116 75 Q108 50 116 35 Q126 60 130 80 Z" fill="#ff9999" opacity="0.45"/>
+  <path d="M194 75 Q202 50 194 35 Q184 60 180 80 Z" fill="#ff9999" opacity="0.45"/>
+
+  <!-- JOUES -->
+  <circle cx="105" cy="150" r="15" fill="url(#cheekG)" stroke="#5a0000" stroke-width="1"/>
+  <circle cx="205" cy="150" r="15" fill="url(#cheekG)" stroke="#5a0000" stroke-width="1"/>
+  <circle cx="101" cy="146" r="4" fill="#ffd0d0" opacity="0.7"/>
+  <circle cx="201" cy="146" r="4" fill="#ffd0d0" opacity="0.7"/>
+
+  <!-- YEUX -->
+  <ellipse cx="128" cy="122" rx="9.5" ry="13" fill="#1a1a1a"/>
+  <ellipse cx="182" cy="122" rx="9.5" ry="13" fill="#1a1a1a"/>
+  <ellipse cx="128" cy="123" rx="6.5" ry="9.5" fill="#3a2300" opacity="0.55"/>
+  <ellipse cx="182" cy="123" rx="6.5" ry="9.5" fill="#3a2300" opacity="0.55"/>
+  <circle cx="130" cy="117" r="3.5" fill="#fff"/>
+  <circle cx="184" cy="117" r="3.5" fill="#fff"/>
+  <circle cx="125" cy="127" r="1.6" fill="#fff" opacity="0.8"/>
+  <circle cx="179" cy="127" r="1.6" fill="#fff" opacity="0.8"/>
+
+  <!-- NEZ -->
+  <ellipse cx="155" cy="146" rx="3.5" ry="2.5" fill="#1a1a1a"/>
+
+  <!-- BOUCHE -->
+  <path d="M134 158 Q155 178 176 158" fill="#5a0000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M145 165 Q155 172 165 165" fill="#ff7878"/>
+  <!-- Petite langue -->
+  <ellipse cx="155" cy="167" rx="5" ry="2" fill="#e63946"/>
+
+  <!-- CAFÉ (dans la patte gauche) -->
+  <!-- Ombre sous la tasse -->
+  <ellipse cx="80" cy="293" rx="22" ry="3" fill="#000" opacity="0.22"/>
+  <!-- Corps de la tasse -->
+  <path d="M60 263 L60 293 Q60 304 72 304 L88 304 Q100 304 100 293 L100 263 Z"
+        fill="url(#mugG)" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Anse -->
+  <path d="M100 270 Q116 270 116 285 Q116 297 100 297"
+        fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+  <!-- Bord de la tasse (ovale) -->
+  <ellipse cx="80" cy="263" rx="20" ry="4" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="1.5"/>
+  <!-- Surface du café -->
+  <ellipse cx="80" cy="263" rx="17" ry="3" fill="url(#coffeeG)"/>
+  <!-- Reflet sur le café -->
+  <ellipse cx="74" cy="262" rx="6" ry="0.8" fill="#9a6028" opacity="0.6"/>
+  <!-- Bandeau cravate sur la tasse -->
+  <rect x="62" y="278" width="36" height="6" fill="#1a1a1a" opacity="0.15"/>
+  <!-- Vapeur -->
+  <path d="M68 254 Q72 248 68 242 Q64 236 68 230" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+  <path d="M80 252 Q84 246 80 240 Q76 234 80 228" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+  <path d="M92 254 Q96 248 92 242" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- Étincelles électriques (alertes) -->
+  <path d="M30 70 L18 56 L28 56 L18 40" fill="none" stroke="#fff700"
+        stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M260 50 L274 36 L264 36 L274 20" fill="none" stroke="#fff700"
+        stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M295 200 L312 188 L300 188 L312 172" fill="none" stroke="#fff700"
+        stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

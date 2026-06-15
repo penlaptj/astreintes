@@ -1,0 +1,20 @@
+<div class="w-full md:w-4/5 max-w-2xl mx-auto px-4 md:px-6 py-6 md:py-10" data-controller="user">
+
+  <!-- Alertes -->
+  <%= render "users/preferences/header_alertes"%>
+  <div class="flex flex-col gap-5 mb-5 hidden"
+    data-user-target="menu"
+    data-chevron-id="alertes">
+      <%= render "users/preferences/body_alertes"%>
+  </div>
+
+  <!-- Themes -->
+  <%= render "users/preferences/header_themes"%>
+  <div class="flex flex-col gap-5 mb-5 hidden"
+    data-user-target="menu"
+    data-chevron-id="themes">
+      <%= render "users/preferences/body_themes"%>
+  </div>
+
+
+</div>

@@ -1,0 +1,92 @@
+<div class="flex flex-col bg-gray-900 text-white text-sm py-4 md:py-8 md:space-y-6 md:min-h-screen overflow-x-auto" data-notification-sidebar>
+
+  <!-- Header -->
+  <div>
+    <%= render "notifications/header_sidebar" %>
+  </div>
+
+  <!-- List -->
+  <div class="flex md:flex-col gap-2 md:space-y-2 md:gap-0 px-2 whitespace-nowrap md:whitespace-normal">
+
+    <!-- Carte "Système" (alertes Grafana ou autres notifications sans expéditeur) -->
+    <% if @system_notifications.any? %>
+      <% system_active = local_assigns[:system_view].present? %>
+      <a href="/notifications/system"
+         class="
+           flex items-center justify-between
+           px-5 py-4 rounded-xl cursor-pointer
+           transition-all duration-200
+           <%= system_active ? 'bg-gray-700 shadow-md' : 'bg-gray-800 hover:bg-gray-700/70' %>
+           <%= @system_unread.positive? ? 'ring-1 ring-red-500/50' : '' %>
+         "
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                    d="M12 9v3.75m0 3.75h.008v.008H12v-.008zM10.29 3.86l-7.4 12.81A2 2 0 004.6 19.75h14.8a2 2 0 001.71-3.08l-7.4-12.81a2 2 0 00-3.42 0z"/>
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-medium text-sm">Système</span>
+            <span class="text-xs text-gray-400">Alertes Grafana &amp; co</span>
+          </div>
+        </div>
+
+        <% if @system_unread.positive? %>
+          <div class="min-w-[24px] h-6 px-2 flex items-center justify-center text-xs font-semibold rounded-full bg-red-500 text-white">
+            <%= @system_unread %>
+          </div>
+        <% end %>
+      </a>
+    <% end %>
+
+    <!-- Expéditeurs humains -->
+    <% @senders.each do |sender| %>
+      <% active = sender.id == @sender&.id %>
+      <% unread_count = @unread_by_sender[sender.id].to_i %>
+      <% has_unread = unread_count.positive? %>
+
+      <a href="/notifications/sender/<%= sender.id %>"
+         class="
+           flex items-center justify-between
+           px-5 py-4 rounded-lg cursor-pointer
+           transition-all duration-200
+
+           <%= active ? 'bg-gray-700 shadow-md' : 'bg-gray-800 hover:bg-gray-700/70' %>
+           <%= has_unread ? 'ring-1 ring-green-500/50' : '' %>
+         "
+      >
+
+        <div class="flex flex-col">
+          <span class="font-medium text-xs">
+            <%= sender.full_name %>
+          </span>
+
+          <% if has_unread %>
+            <span class="text-xs text-gray-400">
+              Nouveaux messages
+            </span>
+          <% end %>
+        </div>
+
+        <% if has_unread %>
+          <div class="
+            min-w-[24px] h-6 px-2
+            flex items-center justify-center
+            text-xs font-semibold
+            rounded-full bg-green-500 text-black
+          ">
+            <%= unread_count %>
+          </div>
+        <% end %>
+      </a>
+    <% end %>
+
+    <% if @senders.empty? && @system_notifications.empty? %>
+      <p class="text-center text-xs text-gray-500 px-4 py-8">
+        Aucune notification pour le moment.
+      </p>
+    <% end %>
+  </div>
+</div>

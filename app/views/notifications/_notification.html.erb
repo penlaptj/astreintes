@@ -1,0 +1,14 @@
+<div class="border border-gray-100 bg-white/50 rounded-lg mx-auto px-3 py-2 mb-8" data-controller="notification" >
+
+  <!-- Header -->
+  <%= render "notifications/header", notification: notification %>
+
+  <!-- Body -->
+  <%= render "notifications/types/#{notification.notification_type}", notification: notification %>
+
+  <!-- Footer -->
+  <%= render "notifications/footer", notification: notification%>
+
+</div>
+
+<div >
